@@ -2,19 +2,22 @@
 
 namespace App\Services;
 
-use App\Exceptions\AccountNotFoundException;
-use App\Exceptions\BalanceException;
-use App\Exceptions\TransactionNotCreatedException;
-use App\Exceptions\TransactionNotFoundException;
-use App\Exceptions\UserCannotBeLojistaExpcetion;
-use App\Exceptions\UserNotFoundException;
-use App\Http\Controllers\Response\ErrorResponse;
-use App\Http\Controllers\Response\SuccessResponse;
-use App\Repositories\{AccountRepository, TransactionRepository, UserRepository};
+use App\Exceptions\{
+    AccountNotFoundException,
+    BalanceException,
+    TransactionNotCreatedException,
+    TransactionNotFoundException,
+    UserCannotBeLojistaExpcetion,
+    UserNotFoundException
+};
+use App\Repositories\{
+    AccountRepository,
+    TransactionRepository,
+    UserRepository
+};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
-use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * Classe responsável pela tratativa das regras de negócio referente as Transações
@@ -41,7 +44,7 @@ class TransactionService implements TransactionInterface
      * Busca todas as transações, transformando source_id e target_id
      * em payer_id e payee_id
      * 
-     * @return Array
+     * @return array
      */
     public function all()
     {
@@ -71,7 +74,7 @@ class TransactionService implements TransactionInterface
      * 
      * @return array
      */
-    public function show($column, $id)
+    public function show(String $column, int $id)
     {
         $transactions = $this->transactionRepository->findAllByColumn($column, $id);
         if ($transactions->isEmpty()) {
@@ -104,6 +107,12 @@ class TransactionService implements TransactionInterface
      * @param Request $request
      * 
      * @return json
+     * 
+     * @throws UserNotFoundException           Se não existir usuário 
+     * @throws AccountNotFoundException        Se o usuário não tiver uma conta cadastrada
+     * @throws UserCannotBeLojistaExpcetion    Se o usuário pagador não for um Lojista
+     * @throws BalanceException                Se o usuário está autorizado e se tem saldo suficiente
+     * @throws TransactionNotCreatedException  Se houver um erro ao persistir a transação
      */
     public function store(Request $request)
     {
@@ -185,7 +194,7 @@ class TransactionService implements TransactionInterface
     /**
      * Mock para simulação de consulta a um serviço autorizador
      * 
-     * @return Boolean
+     * @return bool
      */
     public function isAuthorizedCallout()
     {
@@ -199,7 +208,7 @@ class TransactionService implements TransactionInterface
     /**
      * Simulação de envio de email/sms notificando o Payer sobre recebimento
      * 
-     * @return Boolean
+     * @return bool
      */
     public function isNotificationSent()
     {

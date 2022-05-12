@@ -8,6 +8,6 @@ use Illuminate\Http\Request;
 interface TransactionInterface
 {
     public function all();
-    public function show(string $column, $id);
+    public function show(string $column, int $id);
     public function store(Request $request);
 }

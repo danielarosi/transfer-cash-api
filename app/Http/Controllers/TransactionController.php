@@ -15,6 +15,7 @@ use Illuminate\{
     Http\Request,
     Support\Facades\Validator
 };
+use LengthException;
 
 /**
  * Classe que implementa Controle das Transações
@@ -38,9 +39,13 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transaction = $this->transactionService->all();
+        try {
+            $transaction = $this->transactionService->all();
+            return SuccessResponse::ok($transaction, null, 200);
+        }  catch (TransactionNotFoundException $e) {
+            return ErrorResponse::fails($e->getMessage(), 401);
 
-        return SuccessResponse::ok($transaction, null, 200);
+        }
     }
     /**
      * Busca uma transação por Pagador ou Beneficiário
@@ -48,18 +53,16 @@ class TransactionController extends Controller
      * @param String $column
      * @param int $id
      * 
-     * @return object
+     * @return json
      */
     public function show($column, $id)
     {
         try {
-
             $transaction = $this->transactionService->show($column, $id);
-
             return SuccessResponse::ok($transaction, null, 200);
         } catch (TransactionNotFoundException $e) {
 
-            return ErrorResponse::fails($e->getMessage(), 404,);
+            return ErrorResponse::fails($e->getMessage(), 404);
         }
     }
     /**
@@ -67,7 +70,7 @@ class TransactionController extends Controller
      * 
      * @param Request $request
      * 
-     * @return object
+     * @return json
      */
     public function store(Request $request)
     {

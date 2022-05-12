@@ -21,12 +21,12 @@ class BaseRepository
         return $this->obj->find($id);
     }
 
-    public function findFirstByColumn(string $column, $value)
+    public function findFirstByColumn(string $column, $value): ?object
     {
         return $this->obj->where($column, $value)->first();
     }
     
-    public function findAllByColumn(string $column, $value)
+    public function findAllByColumn(string $column, $value): ?object
     {
         return $this->obj->where($column, $value)->get();
 
