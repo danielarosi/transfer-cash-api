@@ -2,14 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Transaction;
-use App\Repositories\UserRepository;
-use App\Services\TransactionService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Mockery;
-use Mockery\MockInterface;
 use Tests\TestCase;
 
 class TransactionTest extends TestCase
@@ -39,6 +33,7 @@ class TransactionTest extends TestCase
 
         $response->assertStatus(404);
     }
+    
     public function testShowTransactionPayeeSuccess()
     {
         $response = $this->get('/api/transactions/target_id/9');
@@ -59,7 +54,7 @@ class TransactionTest extends TestCase
 
         $dataRquest = [
             "value" => 100.00,
-            "payer" => 1,
+            "payer" => 3,
             "payee" => 9
         ];
 
@@ -154,37 +149,4 @@ class TransactionTest extends TestCase
 
         DB::rollBack();
     }
-
-     
-    // public function testCreateTransactionIsNotAuthorized() 
-    // {
-    //     $this->partialMock(UserRepository::class, function(MockInterface $mock) {
-    //         $mock->shouldReceive('find')->andReturnValues(['id'=>'1']);
-    //     });
-    //     $this->partialMock(TransactionService::class, function(MockInterface $mock) {
-    //         $mock->shouldReceive('isAuthorizedCallout')->andReturnFalse();
-    //     });
-
-    //     $dataRquest = [
-    //         "value" => 100.00,
-    //         "payer" => 1,
-    //         "payee" => 9
-    //     ];
-
-    //     $response = $this->post('/api/transactions/', $dataRquest);
-
-    //     $response->assertStatus(401);  
-
-
-    // }
 }
-
-// class TransactionDummy extends TransactionService
-// {
-//     public function isAuthorizedCallout()
-//     {
-//         dd('oi');
-//         exit();
-//         return false;   
-//     }
-// }
