@@ -5,7 +5,7 @@ Projeto back-end desenvolvido no Framework Laravel 9 com PHP 8, para API de movi
 ### Configurações
 Clone o repositório para criar uma cópia local no seu computador, cd "diretorio de sua escolha"
 ``` bash
-git clone https://github.com/danielarosi/api-cashflow
+git clone https://github.com/danielarosi/transfer-cash-api
 ```
 
 
