@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use App\Exceptions\{NoUsersException, UserNotCreatedException};
+use App\Exceptions\{UserNotCreatedException, UsersNotFoundException};
 use App\Repositories\{AccountRepository, UserRepository};
-use App\Http\Controllers\Response\{ErrorResponse, SuccessResponse};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -38,7 +37,7 @@ class UserService implements UserInterface
     {
         $users = $this->userRepository->all();
         if ($users->isEmpty()) {
-            throw new NoUsersException('Usuários não encontrados.');
+            throw new UsersNotFoundException('Usuários não encontrados.');
         }
         return $users->toArray();
     }
@@ -53,7 +52,7 @@ class UserService implements UserInterface
     {
         $user = $this->userRepository->find($id)->first();
         if (empty($user)) {
-            throw new NoUsersException('Usuários não encontrados.');
+            throw new UsersNotFoundException('Usuários não encontrados.');
         }
         return $user;
     }
@@ -63,6 +62,8 @@ class UserService implements UserInterface
      * @param Request $request
      * 
      * @return object
+     * 
+     * @throws UserNotCreatedException  Se houver um erro ao persistir o usuário
      */
     public function store(Request $request)
     {

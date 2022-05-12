@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\{NoUsersException, UserNotCreatedException};
+use App\Exceptions\{UserNotCreatedException, UsersNotFoundException};
 use App\Http\Controllers\Response\{ErrorResponse, SuccessResponse};
 use App\Services\UserInterface;
 use Illuminate\{
@@ -38,7 +38,7 @@ class UserController extends Controller
         try {
             $user = $this->userService->all();
             return SuccessResponse::ok($user, null, 200);
-        } catch (NoUsersException $e) {
+        } catch (UsersNotFoundException $e) {
             return ErrorResponse::fails($e->getMessage(), 401);
         }
     }
@@ -54,7 +54,7 @@ class UserController extends Controller
         try {
             $user = $this->userService->show($id);
             return SuccessResponse::ok($user, null, 200);
-        } catch (NoUsersException $e) {
+        } catch (UsersNotFoundException $e) {
             return ErrorResponse::fails($e->getMessage(), 404);
         }
     }
