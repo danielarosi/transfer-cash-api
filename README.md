@@ -73,9 +73,9 @@ php artisan test --filter <NAME_TEST_METHOD>
     
 <img src="/docs/screenshot-2.png" alt="Diagrama Arquitetura Lógica"/>
     
-### Modelo de Componentes
+### Arquitetura Lógico (detalhada)
     
-<img src="/docs/screenshot-3.png" alt="Diagrama Modelo de Componentes"/>
+<img src="/docs/screenshot-3.png" alt="Detalhamento"/>
     
 ## Métodos
 As API's desenvolvidas neste projetos adotam o seguinte padrão:
