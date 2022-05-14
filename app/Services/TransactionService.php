@@ -106,7 +106,7 @@ class TransactionService implements TransactionInterface
      * 
      * @param Request $request
      * 
-     * @return json
+     * @return object
      * 
      * @throws UserNotFoundException           Se não existir usuário 
      * @throws AccountNotFoundException        Se o usuário não tiver uma conta cadastrada
@@ -168,11 +168,11 @@ class TransactionService implements TransactionInterface
             DB::beginTransaction();
             $accountPayer->balance -= $request->value;
             $accountPayee->balance += $request->value;
-            $isBalancePayerUpdated = $accountPayer->save();
+            $isBalancePayerUpdated = $this->accountRepository->save($accountPayer->getAttributes());
+            $isBalancePayeeUpdated = $this->accountRepository->save($accountPayee->getAttributes());
             $isTransactionCreated = $this->transactionRepository->save($data);
-            $notified = $this->isNotificationSent();
-
-            $isBalancePayeeUpdated = $accountPayee->save();
+            
+            $notified = $this->isNotificationSent();           
             if (
                 $isTransactionCreated &&
                 $isBalancePayeeUpdated &&
