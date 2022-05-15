@@ -35,5 +35,9 @@ class BaseRepository
     {
         return $this->obj->create($attributes);
     }
-    
+
+    public function update(int $id, array $attributes): bool
+    {
+        return $this->obj->find($id)->update($attributes);
+    }
 }

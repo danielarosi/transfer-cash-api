@@ -168,8 +168,8 @@ class TransactionService implements TransactionInterface
             DB::beginTransaction();
             $accountPayer->balance -= $request->value;
             $accountPayee->balance += $request->value;
-            $isBalancePayerUpdated = $this->accountRepository->save($accountPayer->getAttributes());
-            $isBalancePayeeUpdated = $this->accountRepository->save($accountPayee->getAttributes());
+            $isBalancePayerUpdated = $this->accountRepository->update($accountPayer->id, $accountPayer->getAttributes());
+            $isBalancePayeeUpdated = $this->accountRepository->update($accountPayee->id, $accountPayee->getAttributes());
             $isTransactionCreated = $this->transactionRepository->save($data);
             
             $notified = $this->isNotificationSent();           
